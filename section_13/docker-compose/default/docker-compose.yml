@@ -270,7 +270,7 @@ services:
     environment:
       OTEL_SERVICE_NAME: "configserver"
       CONFIG_GIT_URI: "https://github.com/vmandeliya/microservices_configuration"
-#      SERVER_PORT: 8072
+      SERVER_PORT: 8071
 
 
   eurekaserver:
