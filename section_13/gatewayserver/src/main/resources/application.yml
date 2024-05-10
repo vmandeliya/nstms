@@ -1,0 +1,113 @@
+spring:
+  application:
+    name: "gatewayserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lowerCaseServiceId: true
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 10s
+      routes:
+        - id: nstbank-accounts-route
+          uri: lb://ACCOUNTS
+          predicates:
+            - Path=/nstbank/accounts/**
+          filters:
+            - RewritePath=/nstbank/accounts/(?<segment>.*), /$\{segment}
+            - name: AddResponseHeader
+              args:
+                name: X-Response-Time
+                value: "${T(java.time.LocalDateTime).now().toString()}"
+            - name: CircuitBreaker
+              args:
+                name: accountsCircuitBreaker
+                fallbackUri: forward:/contactSupport
+
+        - id: nstbank-loans-route
+          uri: lb://LOANS
+          predicates:
+            - Path=/nstbank/loans/**
+          filters:
+            - RewritePath=/nstbank/loans/(?<segment>.*), /$\{segment}
+            - name: AddResponseHeader
+              args:
+                name: X-Response-Time
+                value: "${T(java.time.LocalDateTime).now().toString()}"
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET
+                backoff:
+                  firstBackoff: 100ms
+                  maxBackoff: 1000ms
+                  factor: 2
+                  includeExponentialBackoff: true
+
+        - id: nstbank-cards-route
+          uri: lb://CARDS
+          predicates:
+            - Path=/nstbank/cards/**
+          filters:
+            - RewritePath=/nstbank/cards/(?<segment>.*), /$\{segment}
+            - name: AddResponseHeader
+              args:
+                name: X-Response-Time
+                value: "${T(java.time.LocalDateTime).now().toString()}"
+            - name: RequestRateLimiter
+              args:
+                rateLimiter: "#{@redisRateLimiter}"
+                keyResolver: "#{@userKeyResolver}"
+
+
+  data:
+    redis:
+      connect-timeout: 2s
+      host: localhost
+      port: 6379
+      timeout: 1s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "NST Bank Gateway Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      nst:
+        gatewayserver: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
