@@ -8,7 +8,7 @@
 		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.nst</groupId>
+	<groupId>com.eazybytes</groupId>
 	<artifactId>loans</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -102,7 +102,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>vikasm1/${project.artifactId}:s13</image>
+						<image>eazybytes/${project.artifactId}:s14</image>
 					</to>
 				</configuration>
 			</plugin>
