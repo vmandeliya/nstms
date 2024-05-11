@@ -305,6 +305,7 @@ services:
       SPRING_APPLICATION_NAME: "accounts"
       OTEL_SERVICE_NAME: "accounts"
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
+      SPRING_CLOUD_CONFIG_SERVER: optional:configserver:http://localhost:8071/
     extends:
       file: common-config.yml
       service: microservice-eureka-config
