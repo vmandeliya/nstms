@@ -2,7 +2,7 @@ spring:
   application:
     name: "gatewayserver"
   config:
-    import: "optional:configserver:http://localhost:8071/"
+    import: ${CONFIG_SERVER_URL}
   cloud:
     gateway:
       discovery:
@@ -22,7 +22,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"
+          jwk-set-uri: ${JWK_SET_URI}
 management:
   endpoints:
     web:

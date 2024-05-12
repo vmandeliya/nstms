@@ -265,6 +265,7 @@ services:
       service: microservice-base-config
     environment:
       OTEL_SERVICE_NAME: "configserver"
+      GIT_CONFIG: "https://github.com/vmandeliya/microservices_configuration"
 
   eurekaserver:
     image: "nst/eurekaserver:s14"
@@ -286,6 +287,8 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "eurekaserver"
       OTEL_SERVICE_NAME: "eurekaserver"
+      CONFIG_SERVER_URL: optional:configserver:http://localhost:8071/
+
 
   accounts:
     image: "nst/accounts:s14"
@@ -305,7 +308,13 @@ services:
       SPRING_APPLICATION_NAME: "accounts"
       OTEL_SERVICE_NAME: "accounts"
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
-      SPRING_CLOUD_CONFIG_SERVER: optional:configserver:http://localhost:8071/
+      CONFIG_SERVER_URL: optional:configserver:http://localhost:8071/
+      DB_HOST_URL: "jdbc:h2:mem:testdb"
+      PROFILE: "prod"
+      KAFKA_BROKER_HOST: "localhost:9092"
+      DB_USERNAME: "sa"
+      DB_PASSWORD: ""
+      EUREKA_DEFAULT_HOST: "http://localhost:8070/eureka/"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -327,6 +336,13 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "loans"
       OTEL_SERVICE_NAME: "loans"
+      CONFIG_SERVER_URL: optional:configserver:http://localhost:8071/
+      DB_HOST_URL: "jdbc:h2:mem:testdb"
+      DB_USERNAME: "sa"
+      DB_PASSWORD: ""
+      PROFILE: "prod"
+      KAFKA_BROKER_HOST: "localhost:9092"
+      EUREKA_DEFAULT_HOST: "http://localhost:8070/eureka/"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -348,6 +364,13 @@ services:
     environment:
       SPRING_APPLICATION_NAME: "cards"
       OTEL_SERVICE_NAME: "cards"
+      CONFIG_SERVER_URL: optional:configserver:http://localhost:8071/
+      DB_HOST_URL: "jdbc:h2:mem:testdb"
+      PROFILE: "prod"
+      KAFKA_BROKER_HOST: "localhost:9092"
+      DB_USERNAME: "sa"
+      DB_PASSWORD: ""
+      EUREKA_DEFAULT_HOST: "http://localhost:8070/eureka/"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -377,6 +400,8 @@ services:
       SPRING_APPLICATION_NAME: "gatewayserver"
       OTEL_SERVICE_NAME: "gatewayserver"
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/realms/master/protocol/openid-connect/certs"
+      CONFIG_SERVER_URL: optional:configserver:http://localhost:8071/
+      git : "http://localhost:7080/realms/master/protocol/openid-connect/certs"
     extends:
       file: common-config.yml
       service: microservice-eureka-config

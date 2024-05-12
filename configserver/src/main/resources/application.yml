@@ -2,16 +2,12 @@ spring:
   application:
     name: "configserver"
   profiles:
-    # active: native
     active: git
   cloud:
     config:
       server:
-        # native:
-          # search-locations: "classpath:/config"
-          # search-locations: "file:///Users//nst//Documents//config"
         git:
-          uri: "https://github.com/vmandeliya/microservices_configuration"
+          uri: ${GIT_CONFIG}
           default-label: main
           timeout: 5
           clone-on-start: true

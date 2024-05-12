@@ -6,10 +6,10 @@ spring:
   profiles:
     active: "prod"
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: ${DB_HOST_URL}
     driverClassName: org.h2.Driver
-    username: sa
-    password: ''
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   h2:
     console:
       enabled: true
@@ -19,7 +19,7 @@ spring:
       ddl-auto: update
     show-sql: true
   config:
-    import: "optional:configserver:http://localhost:8071/"
+    import: ${CONFIG_SERVER_URL}
 
 management:
   endpoints:
@@ -55,7 +55,7 @@ eureka:
     fetchRegistry: true
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+      defaultZone: ${EUREKA_DEFAULT_HOST}
 
 info:
   app:
