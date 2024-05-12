@@ -8,11 +8,11 @@
 		<version>3.2.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.eazybytes</groupId>
+	<groupId>com.nst</groupId>
 	<artifactId>eurekaserver</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eurekaserver</name>
-	<description>Service Discovery agent for Eazy Bank microservices</description>
+	<description>Service Discovery agent for Nst Bank microservices</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2023.0.0</spring-cloud.version>
@@ -72,7 +72,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>eazybytes/${project.artifactId}:s14</image>
+						<image>nst/${project.artifactId}:s14</image>
 					</to>
 				</configuration>
 			</plugin>

@@ -60,13 +60,13 @@ eureka:
 info:
   app:
     name: "cards"
-    description: "Eazy Bank Cards Application"
+    description: "Nst Bank Cards Application"
     version: "1.0.0"
 
 logging:
   level:
     com:
-      eazybytes:
+      nst:
         cards: DEBUG
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

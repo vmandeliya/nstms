@@ -60,13 +60,13 @@ eureka:
 info:
   app:
     name: "loans"
-    description: "Eazy Bank Loans Application"
+    description: "Nst Bank Loans Application"
     version: "1.0.0"
 
 logging:
   level:
     com:
-      eazybytes:
+      nst:
         loans: DEBUG
   pattern:
     level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

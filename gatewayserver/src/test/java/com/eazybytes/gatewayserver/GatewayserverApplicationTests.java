@@ -1,4 +1,4 @@
-package com.eazybytes.gatewayserver;
+package com.nst.gatewayserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
