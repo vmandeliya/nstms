@@ -1,16 +1,4 @@
 services:
-
-  vault:
-    image: vault
-    container_name: vault
-    ports:
-      - "8200:8200"
-    environment:
-      VAULT_DEV_ROOT_TOKEN_ID: "nst_root_token"  # Replace with your desired root token
-      VAULT_ADDR: "http://vault:8200"             # Vault address
-    volumes:
-      - ./vault-data:/vault/file # Persistent storage for Vault data
-
   kafka:
     image: docker.io/bitnami/kafka:3.7
     ports:
