@@ -1,5 +1,16 @@
 services:
 
+  vault:
+    image: vault
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "nst_root_token"  # Replace with your desired root token
+      VAULT_ADDR: "http://vault:8200"             # Vault address
+    volumes:
+      - ./vault-data:/vault/file # Persistent storage for Vault data
+
   kafka:
     image: docker.io/bitnami/kafka:3.7
     ports:
@@ -250,7 +261,7 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "nst/configserver:s14"
+    image: "vikasm1/configserver:s14"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -268,7 +279,7 @@ services:
       GIT_CONFIG: "https://github.com/vmandeliya/microservices_configuration"
 
   eurekaserver:
-    image: "nst/eurekaserver:s14"
+    image: "vikasm1/eurekaserver:s14"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -291,7 +302,7 @@ services:
 
 
   accounts:
-    image: "nst/accounts:s14"
+    image: "vikasm1/accounts:s14"
     container_name: accounts-ms
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
@@ -320,7 +331,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "nst/loans:s14"
+    image: "vikasm1/loans:s14"
     container_name: loans-ms
     depends_on:
       configserver:
@@ -348,7 +359,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: "nst/cards:s14"
+    image: "vikasm1/cards:s14"
     container_name: cards-ms
     depends_on:
       configserver:
@@ -376,7 +387,7 @@ services:
       service: microservice-eureka-config
 
   message:
-    image: "nst/message:s14"
+    image: "vikasm1/message:s14"
     container_name: message-ms
     environment:
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
@@ -385,7 +396,7 @@ services:
       service: network-deploy-service
 
   gatewayserver:
-    image: "nst/gatewayserver:s14"
+    image: "vikasm1/gatewayserver:s14"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
